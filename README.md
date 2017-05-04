@@ -1,3 +1,5 @@
+My senior design project from Spring 2017. Sponsored by DellEMC
+
 ## Notes about program:
 
 #### Accept/reject results will be in serverLog
