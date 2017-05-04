@@ -1,0 +1,3 @@
+sd-vm14.csc.ncsu.edu
+sd-vm19.csc.ncsu.edu
+sd-vm20.csc.ncsu.edu

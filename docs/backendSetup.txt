@@ -1,0 +1,16 @@
+Steps to set up Python plugin on new resource servers (all files can be found on vm14 and vm20):
+
+1. scp /usr/lib/irods/plugins/rule_engines/libirods_rule_engine_plugin-python.so to same location
+2. scp /etc/irods/core.py to same location
+3. scp /etc/irods/upload.re to same location
+4. add python plugin to /etc/irods/server_config.json at plugin_configuration/rule_engines at the top:
+
+{
+    "instance_name": "irods_rule_engine_plugin-python-instance",
+    "plugin_name": "irods_rule_engine_plugin-python",
+    "plugin_specific_configuration": {}
+},
+
+5. add new rulebase set to plugin_configuration/rule_engines/irods_rule_engine_plugin-irods_rule_language/re_rulebase_set in first slot of array
+
+"upload",

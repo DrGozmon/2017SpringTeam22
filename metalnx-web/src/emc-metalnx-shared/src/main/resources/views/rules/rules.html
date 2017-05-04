@@ -1,0 +1,193 @@
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.thymeleaf.org"
+    lang="en"
+    layout:decorator="template">
+
+<head>
+	<title th:text="#{tab.title.rules}">EMC Metalnx - Rules</title>
+</head>
+
+<body>
+	<!-- Page Content -->
+	<div layout:fragment="content">
+		<style>
+			/* CSS to hide the default input element. This is
+			 * so the file picker appears as a button.
+			 */ 
+			/*.input-element {
+				width: 0.1px;
+				height: 0.1px;
+				opacity: 0;
+				overflow: hidden;
+				position: absolute;
+				z-index: -1;
+			}*/
+			/*.input-element-button {
+				
+			}*/
+		</style>
+		
+		<div class="row">	
+			<div class="col-sm-12">
+				
+				<!-- Header section -->
+				<h1 class="page-header pull-left">
+					<span th:text="#{rules.page.title}"></span>
+				</h1>
+				<a id="rules-page-title"  href="#" class="page-hint pull-right"><i class="fa fa-question-circle"></i></a>
+				<div class="header-line"></div>
+				
+				<!-- Rule upload section -->
+				<div class="row">
+					<div class="col-sm-12">
+						<!-- <div class="col-sm-3"></div>
+						
+						<div class="col-sm-6"> -->
+							
+							<form action="/emc-metalnx-web/upload/" method="POST" role="form" enctype="multipart/form-data" id="uploadForm">
+								<div class="input-group">
+									<span class="input-group-btn">
+										
+										<input type="file" name="file" id="file" class="input-element" />
+										<label for="file" class="btn btn-primary pull-left">Select</label>
+										
+									</span>
+									<!-- <input type="text" class="form-control" id="filename-display" placeholder="Pick rules files to upload..." readonly/> -->
+									<input type="text" />
+									<!-- readonly -->
+								  	<span class="input-group-btn">
+										<!-- <button class="btn btn-primary" type="button">Upload</button> -->
+										<a type="button" class="btn btn-primary pull-left" id="uploadButton" target="_blank" href="?uploadNewTab=true">
+									        <i class="fa fa-upload"></i> <span th:text="#{upload.label}"></span>
+									    </a>
+								 	</span>
+								</div>
+							</form>
+
+						<!-- </div>
+						
+						<div class="col-sm-3"></div> -->
+					</div>
+				</div>
+				
+				
+				
+				<!-- Table loader Ajax Gif -->
+				<div id="table-loader" class="table-loader">
+					<img class="center-block" th:src="@{/images/ajax_loader.gif}" />
+					<p class="text-center" th:text="#{loading.table.label}"></p>
+				</div>
+				
+				<!-- Current resources Table -->
+				<div id="resourceListAsync"></div>
+				
+			</div>
+		</div>
+
+		<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+			$(document).ready(function(){
+				// Add tooltip on Server View button
+				$('#serverViewBtn').tooltip({
+					trigger: 'hover',
+					placement:'top',
+				});
+				// Add tooltip on Map View button
+				$('#mapViewBtn').tooltip({
+					trigger: 'hover',
+					placement: 'top',
+				}); 
+				// Add tooltip on List View button
+				$('#listViewBtn').tooltip({
+					trigger: 'hover',
+					placement: 'top',
+				}); 
+				
+				// Add popover on page title
+				$('#rules-page-title').popover({
+					title:[[#{rules.page.title}]],
+					content:[[#{rules.page.title.popover}]],
+					trigger: 'hover click',
+					placement: 'left',
+				});
+			});
+			$(function() {
+				function populateResourceTableDiv(data) {
+					$("#resourceListAsync").html(data);
+					$("#table-loader").hide();
+					$("#resourceListAsync").show();
+				}
+
+				// Loads results in user management page
+				function loadResourceResults() {
+					var url = "/emc-metalnx-web/resources/findAll/";
+					ajaxEncapsulation(url, "GET", "", populateResourceTableDiv, null, null);
+				}
+
+				// When the user arrives to this page
+				loadResourceResults();
+			});
+			
+			// Open the file picker when the "Select" button is clicked
+			// $("#browseButton").click(function(){ 
+			// 	$("input[name='files']").click();
+			// 	$("#browseButton").show();
+			// });
+			// 
+			// $("#file").onchange = function () {
+			// 	console.log(this.value);
+			    // $("#picked-filename").value = this.value;
+			// };
+			
+			// var input = $('#input-element')[0];
+			// input.onchange = function () {
+			// 	console.log('wot tow');
+			// }
+			// Array.prototype.forEach.call(inputs, function( input ) {
+			// 	var label	 = input.nextElementSibling;
+			// 	var labelVal = label.innerHTML;
+			// 
+			// 	input.addEventListener( 'change', function( e ) {
+			// 		var fileName = '';
+			// 		if( this.files && this.files.length > 1 ) {
+			// 			fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+			// 		} else {
+			// 			fileName = e.target.value.split( '\\' ).pop();
+			// 		}
+			// 
+			// 		if( fileName ) {
+			// 			label.querySelector( 'span' ).innerHTML = fileName;
+			// 		} else {
+			// 			label.innerHTML = labelVal;
+			// 		}
+			// 	});
+			// });
+			
+			/* var inputs = document.querySelectorAll( '.input-element' );
+			Array.prototype.forEach.call( inputs, function( input ) {
+				var label	 = input.nextElementSibling;
+				var labelVal = label.innerHTML;
+
+				input.addEventListener( 'change', function( e ) {
+					var fileName = '';
+					if( this.files && this.files.length > 1 ) {
+						fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+					} else {
+						fileName = e.target.value.split( '\\' ).pop();
+					}
+
+					if( fileName ) {
+						label.querySelector( 'span' ).innerHTML = fileName;
+					} else {
+						label.innerHTML = labelVal;
+					}
+				});
+			}); */
+		/*]]>*/
+		</script>
+	</div> <!-- /. Page Content -->
+</body>
+
+</html>
